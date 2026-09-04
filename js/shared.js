@@ -11,6 +11,23 @@ const CHAPTER_NEXT = {
   6: { html: "ending.html", css: "css/ending.css", js: "js/ending.js" }
 };
 
+function robustSeek(audio, time) {
+  if (!audio || !time || time < 1) return;
+  const attemptSeek = () => {
+    try { audio.currentTime = time; } catch (e) {}
+  };
+  attemptSeek();
+  let tries = 0;
+  const verify = setInterval(() => {
+    tries += 1;
+    if (Math.abs(audio.currentTime - time) > 1.5) {
+      attemptSeek();
+    } else {
+      clearInterval(verify);
+    }
+    if (tries >= 8) clearInterval(verify);
+  }, 200);
+}
 function prefetchHref(href, rel = "prefetch") {
   if (!href || document.querySelector(`link[href="${href}"]`)) return;
   const link = document.createElement("link");
@@ -191,14 +208,7 @@ function initBackgroundMusic() {
 
       const savedEarlyTime = sessionStorage.getItem("musicTime");
       if (savedEarlyTime) {
-        const seekTo = parseFloat(savedEarlyTime);
-        if (earlyAudio.readyState >= 1) {
-          earlyAudio.currentTime = seekTo;
-        } else {
-          earlyAudio.addEventListener("loadedmetadata", () => {
-            earlyAudio.currentTime = seekTo;
-          }, { once: true });
-        }
+        robustSeek(earlyAudio, parseFloat(savedEarlyTime));
       }
       if (!isOpeningPage && sessionStorage.getItem("musicPlaying") === "true") {
         attemptPlayMusic();
@@ -252,15 +262,8 @@ function initBackgroundMusic() {
   const isPlaying = sessionStorage.getItem("musicPlaying");
   const volumeIncreased = sessionStorage.getItem("volumeIncreased") === "true";
 
-    if (savedTime) {
-    const seekTo = parseFloat(savedTime);
-    if (audio.readyState >= 1) {
-      audio.currentTime = seekTo;
-    } else {
-      audio.addEventListener("loadedmetadata", () => {
-        audio.currentTime = seekTo;
-      }, { once: true });
-    }
+  if (savedTime) {
+    robustSeek(audio, parseFloat(savedTime));
   }
 
   // Set volume based on persistent progress
@@ -365,8 +368,9 @@ function attemptPlayMusic(forceWait = false) {
   audioInstance.setAttribute("webkit-playsinline", "true");
 
   const tryPlay = () => {
-    audioInstance.play()
+   audioInstance.play()
       .then(() => {
+        robustSeek(audioInstance, parseFloat(sessionStorage.getItem("musicTime") || "0"));
         console.log("Playback successfully started/unlocked on interaction!");
         removeUnlockListeners();
       })
@@ -401,6 +405,7 @@ function attemptPlayMusic(forceWait = false) {
     // Attempt playing immediately (standard unlock restore)
     audioInstance.play()
       .then(() => {
+        robustSeek(audioInstance, parseFloat(sessionStorage.getItem("musicTime") || "0"));
         console.log("Audio played immediately successfully!");
       })
       .catch((error) => {
