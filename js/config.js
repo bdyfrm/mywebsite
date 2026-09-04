@@ -38,7 +38,7 @@ const BirthdayConfig = {
     {
       title: "🌸 The laugh I keep replaying",
       text: "If only I could show you how contagious your laugh is",
-      photo: "story/story2.mov",
+      photo: "story/Story2.mov",
       mediaType: "video"
     },
     {
@@ -62,7 +62,7 @@ const BirthdayConfig = {
     {
       title: "🌙 September 5",
       text: "Today is for you, yene konjo for your smile, your heart, and the light you quietly bring with you.",
-      photo: "story/story6.jpg",
+      photo: "story/story6.JPG",
       mediaType: "image"
     }
   ],
