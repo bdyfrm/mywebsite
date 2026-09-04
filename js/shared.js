@@ -190,7 +190,16 @@ function initBackgroundMusic() {
       earlyAudio.volume = 0.22;
 
       const savedEarlyTime = sessionStorage.getItem("musicTime");
-      if (savedEarlyTime) earlyAudio.currentTime = parseFloat(savedEarlyTime);
+      if (savedEarlyTime) {
+        const seekTo = parseFloat(savedEarlyTime);
+        if (earlyAudio.readyState >= 1) {
+          earlyAudio.currentTime = seekTo;
+        } else {
+          earlyAudio.addEventListener("loadedmetadata", () => {
+            earlyAudio.currentTime = seekTo;
+          }, { once: true });
+        }
+      }
       if (!isOpeningPage && sessionStorage.getItem("musicPlaying") === "true") {
         attemptPlayMusic();
       }
@@ -243,8 +252,15 @@ function initBackgroundMusic() {
   const isPlaying = sessionStorage.getItem("musicPlaying");
   const volumeIncreased = sessionStorage.getItem("volumeIncreased") === "true";
 
-  if (savedTime) {
-    audio.currentTime = parseFloat(savedTime);
+    if (savedTime) {
+    const seekTo = parseFloat(savedTime);
+    if (audio.readyState >= 1) {
+      audio.currentTime = seekTo;
+    } else {
+      audio.addEventListener("loadedmetadata", () => {
+        audio.currentTime = seekTo;
+      }, { once: true });
+    }
   }
 
   // Set volume based on persistent progress
