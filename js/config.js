@@ -13,15 +13,17 @@ const BirthdayConfig = {
   voiceNoteUrl: "",
   wishPrompts: [
     "Before we finish...",
-    "Mahlet, close your eyes.",
+    "When you're ready...",
     "Make a wish for September 5.",
-    "When you're ready..."
+    "Just wanted to remind you how pretty you are first",
+    
+    
   ],
 
   // Chapter 2 - Memory Hunt Settings
   correctGiftIndex: 2, // 0-4 index of correct box
   wrongGiftMessages: [
-    "Not this one, Mahlet ✨",
+    "Not this one, Afro gal ✨",
     "A little closer, my favorite almost",
     "That was a lovely try",
     "Keep looking — the best one is still waiting"
@@ -68,7 +70,7 @@ const BirthdayConfig = {
   ],
 
   // Chapter 4 - Birthday Letter Settings
-  letterText: "This is a small piece of September 5 made just for you, konjiye. I wanted to give you more than a quick message I wanted to make you a little place you could explore, smile at, and keep. Thank you for being the kind of person who makes ordinary moments feel softer. Do you know gin how much special you are to me? you got me acting like a child making you websites just to see a smile on your face, am glad that I get to see how beautiful of a peronality you have beza lay dgmo wubet ong. I want to close saying, Mahlet you make falling exciting!!!!!",
+  letterText: "This is a small piece of September 5 made just for you, konjiye. I wanted to give you more than a quick message I wanted to make you a little place you could explore, smile at, and keep. Thank you for being the kind of person who makes ordinary moments feel softer. Do you know gin how special you are to me? you got me acting like a child making you websites just to see a smile on your face, am glad that I get to see how beautiful of a peronality you have beza lay dgmo wubet ong. I am stealing this from you, Mahlet you make falling exciting!!!!!",
   letterSignature: "YPBEB❤️",
 
   // Chapter 5 - Surprise Box Settings
